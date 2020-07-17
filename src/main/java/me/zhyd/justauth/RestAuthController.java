@@ -50,7 +50,9 @@ public class RestAuthController {
         System.out.println("进入render：" + source);
         AuthRequest authRequest = getAuthRequest(source);
         String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
-        System.out.println(authorizeUrl);
+
+        // https://gitee.com/oauth/authorize?response_type=code&client_id=51658a8404baedfac0743fe46f7f77ca5b98ba4c1ce99eaee5ac0801376dccf2&redirect_uri=http://47.115.51.235:8443/oauth-service&state=32b58d2a734825e5531ec1a2ed2173a2
+        System.out.println("第三方平台鉴权地址"+authorizeUrl);
         response.sendRedirect(authorizeUrl);
     }
 
@@ -62,7 +64,7 @@ public class RestAuthController {
         System.out.println("进入callback：" + source + " callback params：" + JSONObject.toJSONString(callback));
         AuthRequest authRequest = getAuthRequest(source);
         AuthResponse<AuthUser> response = authRequest.login(callback);
-        System.out.println(JSONObject.toJSONString(response));
+        System.out.println("login response:"+JSONObject.toJSONString(response));
 
         if (response.ok()) {
             userService.save(response.getData());
@@ -120,6 +122,8 @@ public class RestAuthController {
         }
     }
 
+
+
     /**
      * 根据具体的授权来源，获取授权请求工具类
      *
@@ -154,7 +158,7 @@ public class RestAuthController {
                 authRequest = new AuthGiteeRequest(AuthConfig.builder()
                         .clientId("51658a8404baedfac0743fe46f7f77ca5b98ba4c1ce99eaee5ac0801376dccf2")
                         .clientSecret("dcc3823897bea5df6f063eb35741bbc9e0c2620110cdba5c4fc7d210e5f85358")
-                        .redirectUri("http://47.115.51.235:8443/oauth-service")
+                        .redirectUri("http://47.115.51.235:8443/oauth-service/oauth/callback/gitee")
                         .build(), stateRedisCache);
                 break;
             case "weibo":
