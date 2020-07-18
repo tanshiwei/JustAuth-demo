@@ -158,7 +158,7 @@
         $(".btn-refresh-token").click(function () {
             var uuid = $(this).data('uuid');
             var source = $(this).data('source');
-            $.post("/oauth/refresh/" + source + "/" + uuid, {}, function (json) {
+            $.post("/oauth-service/oauth/refresh/" + source + "/" + uuid, {}, function (json) {
                 alert(json.msg);
             })
         });
@@ -166,7 +166,7 @@
         $(".btn-revoke-token").click(function () {
             var uuid = $(this).data('uuid');
             var source = $(this).data('source');
-            $.post("/oauth/revoke/" + source + "/" + uuid, {}, function (json) {
+            $.post("/oauth-service/oauth/revoke/" + source + "/" + uuid, {}, function (json) {
                 alert(json.msg);
             })
         })
